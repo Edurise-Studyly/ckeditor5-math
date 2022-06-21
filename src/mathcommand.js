@@ -8,6 +8,13 @@ export default class MathCommand extends Command {
 		const selection = model.document.selection;
 		const selectedElement = selection.getSelectedElement();
 
+		console.log('tagname')
+		console.log(this.tagName);
+		console.log('attributes');
+		console.log(this.attributes);
+		console.log('selectedElement');
+		console.log(selectedElement);
+
 		model.change( writer => {
 			let mathtex;
 			if ( selectedElement && ( selectedElement.is( 'element', 'mathtex-inline' ) ||

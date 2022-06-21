@@ -34,7 +34,9 @@ export default class MathUI extends Plugin {
 		this.formView = this._createFormView();
 
 		this._balloon = editor.plugins.get( ContextualBalloon );
-
+		console.log('plugins');
+		console.log(editor.plugins);
+		//editor.plugins.get( 'High' ).isEnabled = true;
 		this._createToolbarMathButton();
 
 		this._enableUserBalloonInteractions();
@@ -60,7 +62,9 @@ export default class MathUI extends Plugin {
 			return;
 		}
 
-		this._addFormView();
+		this._addFormView(); //this one
+		console.log('showStack');
+		console.log(editor.plugins);
 
 		this._balloon.showStack( 'main' );
 	}

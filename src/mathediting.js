@@ -1,10 +1,10 @@
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import { toWidget, viewToModelPositionOutsideModelElement } from '@ckeditor/ckeditor5-widget/src/utils';
+import {toWidget, viewToModelPositionOutsideModelElement} from '@ckeditor/ckeditor5-widget/src/utils';
 import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
 import MathCommand from './mathcommand';
 
-import { renderEquation, extractDelimiters } from './utils';
+import {extractDelimiters, renderEquation} from './utils';
 
 export default class MathEditing extends Plugin {
 	static get requires() {
@@ -51,48 +51,23 @@ export default class MathEditing extends Plugin {
 			isObject: true,
 			allowAttributes: [ 'equation', 'type', 'display' ]
 		} );
+		schema.extend( 'mathtex-inline', {
+			allowAttributes: [ 'style' ]
+		} );
+		schema.extend( '$text', {
+			allowIn: 'mathtex-inline'
+		} );
 	}
 
-	_defineConverters() {
+	_defineConverters( attrkeys ) {
 		const conversion = this.editor.conversion;
 		const mathConfig = this.editor.config.get( 'math' );
+		console.log(mathConfig);
+		document.aa = mathConfig;
+		document.bb = this.editor;
 
 		// View -> Model
 		conversion.for( 'upcast' )
-			// MathJax inline way (e.g. <script type="math/tex">\sqrt{\frac{a}{b}}</script>)
-			.elementToElement( {
-				view: {
-					name: 'script',
-					attributes: {
-						type: 'math/tex'
-					}
-				},
-				model: ( viewElement, { writer } ) => {
-					const equation = viewElement.getChild( 0 ).data.trim();
-					return writer.createElement( 'mathtex-inline', {
-						equation,
-						type: mathConfig.forceOutputType ? mathConfig.outputType : 'script',
-						display: false
-					} );
-				}
-			} )
-			// MathJax display way (e.g. <script type="math/tex; mode=display">\sqrt{\frac{a}{b}}</script>)
-			.elementToElement( {
-				view: {
-					name: 'script',
-					attributes: {
-						type: 'math/tex; mode=display'
-					}
-				},
-				model: ( viewElement, { writer } ) => {
-					const equation = viewElement.getChild( 0 ).data.trim();
-					return writer.createElement( 'mathtex-display', {
-						equation,
-						type: mathConfig.forceOutputType ? mathConfig.outputType : 'script',
-						display: true
-					} );
-				}
-			} )
 			// CKEditor 4 way (e.g. <span class="math-tex">\( \sqrt{\frac{a}{b}} \)</span>)
 			.elementToElement( {
 				view: {
@@ -100,7 +75,17 @@ export default class MathEditing extends Plugin {
 					classes: [ 'math-tex' ]
 				},
 				model: ( viewElement, { writer } ) => {
-					const equation = viewElement.getChild( 0 ).data.trim();
+					console.log('CKEditor 4 way');
+					console.log(viewElement);
+
+					let content = viewElement.getChild( 0 );
+
+					while (content.data === undefined) {
+						content = content.getChild( 0 );
+					}
+
+					const equation = content.data.trim();
+					console.log(equation);
 
 					const params = Object.assign( extractDelimiters( equation ), {
 						type: mathConfig.forceOutputType ? mathConfig.outputType : 'span'
@@ -130,6 +115,7 @@ export default class MathEditing extends Plugin {
 			.elementToElement( {
 				model: 'mathtex-inline',
 				view: ( modelItem, { writer } ) => {
+					console.log('editingDowncast mathtex-inline');
 					const widgetElement = createMathtexEditingView( modelItem, writer );
 					return toWidget( widgetElement, writer, 'span' );
 				}
@@ -151,6 +137,38 @@ export default class MathEditing extends Plugin {
 				model: 'mathtex-display',
 				view: createMathtexView
 			} );
+
+		this.editor.conversion.for( 'upcast' )
+			.attributeToAttribute( {
+				view: {
+					name: /^(mathtex-display|mathtex-inline)$/,
+					styles: {
+						'background-color': /[\s\S]+/
+					}
+				},
+				model: {
+					key: 'style',
+					value: viewElement => {
+						const align = viewElement.getStyle( 'background-color' );
+
+						return align === defaultValue ? null : align;
+					}
+				}
+			} );
+
+		this.editor.conversion.for( 'downcast' )
+			.attributeToAttribute( {
+			model: {
+				name: 'mathtex-inline',
+				key: 'style'
+			},
+			view: color => ( {
+				key: 'style',
+				value : {
+					'background-color': color
+				}
+			} )
+		} );
 
 		// Create view for editor
 		function createMathtexEditingView( modelItem, writer ) {
