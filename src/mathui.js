@@ -69,7 +69,9 @@ export default class MathUI extends Plugin {
 		this._balloon.showStack( 'main' );
 	}
 
+	//only executed once
 	_createFormView() {
+		console.log('_createFormView');
 		const editor = this.editor;
 		const mathCommand = editor.commands.get( 'math' );
 
@@ -114,6 +116,7 @@ export default class MathUI extends Plugin {
 	}
 
 	_addFormView() {
+		console.log('_addFormView');
 		if ( this._isFormInPanel ) {
 			return;
 		}
@@ -132,6 +135,8 @@ export default class MathUI extends Plugin {
 
 		// Show preview element
 		const previewEl = global.document.getElementById( this._previewUid );
+		console.log('this._previewUid');
+		console.log(this._previewUid);
 		if ( previewEl && this.formView.previewEnabled ) {
 			// Force refresh preview
 			this.formView.mathView.updateMath();
@@ -142,6 +147,7 @@ export default class MathUI extends Plugin {
 	}
 
 	_hideUI() {
+		console.log('hideUI');
 		if ( !this._isFormInPanel ) {
 			return;
 		}
@@ -158,6 +164,7 @@ export default class MathUI extends Plugin {
 	}
 
 	_closeFormView() {
+		console.log('_closeFormView()');
 		const mathCommand = this.editor.commands.get( 'math' );
 		if ( mathCommand.value !== undefined ) {
 			this._removeFormView();
@@ -172,6 +179,8 @@ export default class MathUI extends Plugin {
 
 			this._balloon.remove( this.formView );
 
+
+			console.log(this.editor.model.document.selection);
 			// Hide preview element
 			const previewEl = global.document.getElementById( this._previewUid );
 			if ( previewEl ) {

@@ -32,6 +32,11 @@ export default class MathView extends View {
 	}
 
 	updateMath() {
+		console.log('this.updateMath()');
+		console.log('this.value');
+		console.log(this.value);
+		console.log('this.element');
+		console.log(this.element);
 		renderEquation( this.value, this.element, this.engine, this.lazyLoad, this.display, true, this.previewUid, this.previewClassName );
 	}
 

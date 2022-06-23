@@ -110,7 +110,7 @@ export default class AutoMath extends Plugin {
 					const mathElement = innerWriter.createElement( params.display ? 'mathtex-display' : 'mathtex-inline', params );
 
 					editor.model.insertContent( mathElement, insertPosition );
-
+					console.log('innerWriter.setSelection');
 					innerWriter.setSelection( mathElement, 'on' );
 				} );
 

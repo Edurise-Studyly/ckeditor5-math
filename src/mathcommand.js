@@ -8,14 +8,8 @@ export default class MathCommand extends Command {
 		const selection = model.document.selection;
 		const selectedElement = selection.getSelectedElement();
 
-		console.log('tagname')
-		console.log(this.tagName);
-		console.log('attributes');
-		console.log(this.attributes);
-		console.log('selectedElement');
-		console.log(selectedElement);
-
 		model.change( writer => {
+			console.log('mathcommand change');
 			let mathtex;
 			if ( selectedElement && ( selectedElement.is( 'element', 'mathtex-inline' ) ||
 					selectedElement.is( 'element', 'mathtex-display' ) ) ) {
@@ -31,12 +25,23 @@ export default class MathCommand extends Command {
 				mathtex = writer.createElement( display ? 'mathtex-display' : 'mathtex-inline', { equation, type: outputType, display } );
 			}
 			model.insertContent( mathtex );
+			console.log('setting selection');
+			console.log(selection);
+			writer.setSelection( selection );
+
 		} );
 	}
 
 	refresh() {
+		console.log('fresh');
 		const model = this.editor.model;
 		const selection = model.document.selection;
+		console.log(selection);
+		const range = selection.getFirstRange();
+
+		for (const item of range.getItems()) {
+			console.log(item.data) //return the selected text
+		}
 		const selectedElement = selection.getSelectedElement();
 
 		this.isEnabled = selectedElement === null || ( selectedElement.is( 'element', 'mathtex-inline' ) ||

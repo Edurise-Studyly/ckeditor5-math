@@ -34,28 +34,75 @@ export default class MathEditing extends Plugin {
 			previewClassName: [],
 			popupClassName: []
 		} );
+
+/*		editor.model.schema.extend( '$text', {
+			allowIn: 'mathtex-inline'
+		} );*/
+	/*		editor.model.schema.extend( 'mathtex-inline', {
+				allowAttributes: 'style'
+			} );*/
+		editor.model.schema.extend( 'mathtex-inline', {
+			allowAttributes: 'fontBackgroundColor'
+		} );
+		editor.model.schema.extend( 'mathtex-inline', {
+			allowAttributes: 'fontColor'
+		} );
+		editor.model.schema.extend( 'mathtex-display', {
+			allowAttributes: 'style'
+		} );
+
+		/*editor.conversion.for( 'upcast' ).attributeToAttribute( {
+			view: {
+				name: 'span',
+				key: 'style',
+				value: {
+					'background-color': /[\s\S]+/
+				}
+			},
+			model: {
+				key: 'style',
+				value: viewElement => viewElement.getStyle( 'background-color' )
+			}
+		} );
+
+		editor.conversion.for( 'downcast' ).add( dispatcher => {
+			dispatcher.on( 'attribute:style:mathtex-inline', ( evt, data, conversionApi ) => {
+				const mathtexelem = data.item;
+
+				// The table from the model is mapped to the widget element: <figure>.
+				const viewFigure = conversionApi.mapper.toViewElement( mathtexelem );
+
+				// A <table> is direct child of a <figure> but there might be other view (including UI) elments inside <figure>.
+				const viewTable = [ ...viewFigure.getChildren() ].find( element => element.name === 'mathtex-inline' );
+
+				// it should be consumed...
+
+				// User view writer to change style of a view table.
+				if ( data.attributeNewValue ) {
+					conversionApi.writer.setStyle( 'background-color', data.attributeNewValue, viewTable );
+				} else {
+					conversionApi.writer.removeStyle( 'background-color', viewTable );
+				}
+			} );
+		} );
+*/
 	}
 
 	_defineSchema() {
 		const schema = this.editor.model.schema;
 		schema.register( 'mathtex-inline', {
 			allowWhere: '$text',
-			isInline: true,
 			isObject: true,
+			//isSelectable: true,
+			//isBlock: true,
 			allowAttributes: [ 'equation', 'type', 'display' ]
 		} );
 
 		schema.register( 'mathtex-display', {
 			allowWhere: '$block',
-			isInline: false,
 			isObject: true,
+			/*isBlock: true,*/
 			allowAttributes: [ 'equation', 'type', 'display' ]
-		} );
-		schema.extend( 'mathtex-inline', {
-			allowAttributes: [ 'style' ]
-		} );
-		schema.extend( '$text', {
-			allowIn: 'mathtex-inline'
 		} );
 	}
 
@@ -116,13 +163,13 @@ export default class MathEditing extends Plugin {
 				model: 'mathtex-inline',
 				view: ( modelItem, { writer } ) => {
 					console.log('editingDowncast mathtex-inline');
-					const widgetElement = createMathtexEditingView( modelItem, writer );
+					const widgetElement = createMathtexEditingView( modelItem, writer, this.editor );
 					return toWidget( widgetElement, writer, 'span' );
 				}
 			} ).elementToElement( {
 				model: 'mathtex-display',
 				view: ( modelItem, { writer } ) => {
-					const widgetElement = createMathtexEditingView( modelItem, writer );
+					const widgetElement = createMathtexEditingView( modelItem, writer, this.editor );
 					return toWidget( widgetElement, writer, 'div' );
 				}
 			} );
@@ -171,7 +218,7 @@ export default class MathEditing extends Plugin {
 		} );
 
 		// Create view for editor
-		function createMathtexEditingView( modelItem, writer ) {
+		function createMathtexEditingView( modelItem, writer, editor ) {
 			const equation = modelItem.getAttribute( 'equation' );
 			const display = modelItem.getAttribute( 'display' );
 
@@ -190,9 +237,22 @@ export default class MathEditing extends Plugin {
 
 				return domElement;
 			} );
-
+			console.log('writer.insert 1');
 			writer.insert( writer.createPositionAt( mathtexView, 0 ), uiElement );
 
+			document.editorr = editor;
+			document.mathTexView = mathtexView;
+			/*editor.model.change( writer => {
+				writer.setSelection(editor.model.document.getRoot(), 'end');
+			});
+
+			let wwriter = writer;
+			document.editorr = editor;*/
+			/*editor.model.change( writer => {
+					writer.setSelection(writer.createPositionAt());
+				}
+			);
+*/
 			return mathtexView;
 		}
 
@@ -208,8 +268,10 @@ export default class MathEditing extends Plugin {
 				} );
 
 				if ( display ) {
+					console.log('writer.insert 2');
 					writer.insert( writer.createPositionAt( mathtexView, 0 ), writer.createText( '\\[' + equation + '\\]' ) );
 				} else {
+					console.log('writer.insert 3');
 					writer.insert( writer.createPositionAt( mathtexView, 0 ), writer.createText( '\\(' + equation + '\\)' ) );
 				}
 
@@ -218,7 +280,7 @@ export default class MathEditing extends Plugin {
 				const mathtexView = writer.createContainerElement( 'script', {
 					type: display ? 'math/tex; mode=display' : 'math/tex'
 				} );
-
+				console.log('writer.insert 4');
 				writer.insert( writer.createPositionAt( mathtexView, 0 ), writer.createText( equation ) );
 
 				return mathtexView;
