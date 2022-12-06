@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Language: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgctxt "Display Modus oder Abgesetzter Formelmodus"
+msgid "Display mode"
+msgstr "Display Modus"
+
+msgctxt ""
+msgid "Insert equation in TeX format."
+msgstr "Gleichung im TeX-Format einfügen."
+
+msgctxt ""
+msgid "Equation preview"
+msgstr "Vorschau der Formel"
+
+msgctxt ""
+msgid "Save"
+msgstr "Speichern"
+
+msgctxt ""
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgctxt ""
+msgid "Insert math"
+msgstr "Formel einsetzen"
+
+msgctxt "Keep window open"
+msgid "Keep window open"
+msgstr "Fenster offen lassen"

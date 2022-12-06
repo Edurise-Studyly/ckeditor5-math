@@ -275,7 +275,7 @@ export default class MainFormView extends View {
 		const switchButton = new SwitchButtonView( this.locale );
 
 		switchButton.set( {
-			label: t( 'Fenster offen lassen ' ),
+			label: t( 'Keep window open' ),
 			withText: true,
 		} );
 
