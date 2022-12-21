@@ -1,3 +1,9 @@
 {
-
+  "Display mode": "Switch for having display mode on or off",
+  "Insert equation in TeX format.": "Description of math-input",
+  "Equation preview" : "preview description",
+  "Save": "button for saving formula",
+  "Cancel": "button for cancelling formula",
+  "Insert math": "Toolbar tooltip",
+  "Keep window open": "Description for switch that keeps math-window open"
 }

@@ -6,28 +6,28 @@ msgstr ""
 
 msgctxt "Display Modus oder Abgesetzter Formelmodus"
 msgid "Display mode"
-msgstr "Display Modus"
+msgstr "Display mode"
 
 msgctxt ""
 msgid "Insert equation in TeX format."
-msgstr "Gleichung im TeX-Format einfügen."
+msgstr "Insert equation in TeX format."
 
 msgctxt ""
 msgid "Equation preview"
-msgstr "Vorschau der Formel"
+msgstr "Equation preview"
 
 msgctxt ""
 msgid "Save"
-msgstr "Speichern"
+msgstr "Save"
 
 msgctxt ""
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Cancel"
 
 msgctxt ""
 msgid "Insert math"
-msgstr "Formel einsetzen"
+msgstr "Insert math"
 
 msgctxt "Keep window open"
 msgid "Keep window open"
-msgstr "Fenster offen lassen"
+msgstr "Keep window open"

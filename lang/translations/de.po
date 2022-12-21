@@ -1,3 +1,9 @@
+msgid ""
+msgstr ""
+"Language: de\n"
+"Language-Team: German (Samhammer AG)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 msgctxt "Display Modus oder Abgesetzter Formelmodus"
 msgid "Display mode"
 msgstr "Display Modus"
