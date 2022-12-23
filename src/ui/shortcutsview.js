@@ -3,7 +3,7 @@ import View from '@ckeditor/ckeditor5-ui/src/view';
 import { groupBy } from 'lodash';
 import svgIcons from '../../assets/math-shortcut-icons';
 import global from "@ckeditor/ckeditor5-utils/src/dom/global";
-
+//TODO: language with t('')
 // choosen category
 let activeCategory = 'Allgemein';
 let inputField = null;
