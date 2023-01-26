@@ -90,7 +90,7 @@ export default class MathUI extends Plugin {
 			mathConfig.previewClassName,
 			mathConfig.popupClassName,
 		);
-		formView.keystrokes.set( colorStroke, () => { this._colorFormula(this.editor) });
+		formView.keystrokes.set( colorStroke, () => { this.editor.execute('fontBackgroundWithMath') });
 
 		formView.mathInputView.bind( 'textContent' ).to( mathCommand, 'value' );
 		formView.displayButtonView.bind( 'isOn' ).to( mathCommand, 'display' );
@@ -177,33 +177,6 @@ export default class MathUI extends Plugin {
 
 		// Remove form first because it's on top of the stack.
 		this._removeFormView();
-	}
-
-	_colorFormula(editor) {
-		const fontColor = 'hsl(60, 75%, 60%)';
-		const attributeKey = 'fontBackgroundColor';
-		const model = editor.model;
-		const selection = model.document.selection;
-		model.change(writer => {
-			if ( selection.isCollapsed ) {
-				if ( !selection.hasAttribute(attributeKey) ) {
-					writer.setSelectionAttribute( attributeKey, fontColor );
-				} else {
-					writer.removeSelectionAttribute( attributeKey );
-				}
-			} else {
-				const ranges = model.schema.getValidRanges( selection.getRanges(), attributeKey );
-				for ( const range of ranges ) {
-					//console.log(model.getSelectedContent(selection).getChild(0).getAttribute(attributeKey))
-					if (selection.hasAttribute(attributeKey) ||
-						model.getSelectedContent(selection).getChild(0).getAttribute(attributeKey)) {
-						writer.removeAttribute(attributeKey, range);
-					} else {
-						writer.setAttribute(attributeKey, fontColor, range);
-					}
-				}
-			}
-		});
 	}
 
 	_closeFormView(cancel) {
