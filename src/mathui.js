@@ -15,6 +15,7 @@ import MathEditing from './mathediting';
 import mathIcon from '../assets/math.svg';
 
 const mathKeystroke = 'Ctrl+4';
+const colorStroke = 'Ctrl+2';
 
 export default class MathUI extends Plugin {
 	static get requires() {
@@ -89,6 +90,7 @@ export default class MathUI extends Plugin {
 			mathConfig.previewClassName,
 			mathConfig.popupClassName,
 		);
+		formView.keystrokes.set( colorStroke, () => { this.editor.execute('fontBackgroundWithMath') });
 
 		formView.mathInputView.bind( 'textContent' ).to( mathCommand, 'value' );
 		formView.displayButtonView.bind( 'isOn' ).to( mathCommand, 'display' );
