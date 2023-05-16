@@ -218,7 +218,7 @@ export default class MathEditing extends Plugin {
 
 			for (const match of equation.matchAll(/{{input-(\d+)}}/g)) {
 				const [full, id] = match;
-				equation = equation.replace(full, `\\htmlId{input-${id}}{\\htmlClass{input-placeholder}{\\htmlClass{input-placeholder-id}{${id}}input}}`);
+				equation = equation.replace(full, `\\htmlClass{input-placeholder input-${id}}{\\text{input-${id}}}`);
 			}
 
 			const uiElement = writer.createUIElement( 'div', null, function( domDocument ) {
