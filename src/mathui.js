@@ -89,6 +89,7 @@ export default class MathUI extends Plugin {
 			this._previewUid,
 			mathConfig.previewClassName,
 			mathConfig.popupClassName,
+			mathConfig.katexRenderOptions,
 		);
 		formView.keystrokes.set( colorStroke, () => { this.editor.execute('fontBackgroundWithMath') });
 

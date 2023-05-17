@@ -204,7 +204,7 @@ export default class MathEditing extends Plugin {
 
 		// Create view for editor
 		function createMathtexEditingView( modelItem, writer ) {
-			let equation = modelItem.getAttribute( 'equation' );
+			const equation = modelItem.getAttribute( 'equation' );
 			const display = modelItem.getAttribute( 'display' );
 
 			const styles = 'user-select: none; ' + ( display ? '' : 'display: inline-block;' );
@@ -215,11 +215,6 @@ export default class MathEditing extends Plugin {
 				class: classes,
 				'equation': equation
 			} );
-
-			for (const match of equation.matchAll(/{{input-(\d+)}}/g)) {
-				const [full, id] = match;
-				equation = equation.replace(full, `\\htmlClass{input-placeholder input-${id}}{\\text{input-${id}}}`);
-			}
 
 			const uiElement = writer.createUIElement( 'div', null, function( domDocument ) {
 				const domElement = this.toDomElement( domDocument );

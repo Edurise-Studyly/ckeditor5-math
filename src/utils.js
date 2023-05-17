@@ -184,6 +184,9 @@ export async function renderEquation(
 			} );
 		}
 	} else if ( engine === 'katex' && typeof katex !== 'undefined' ) {
+
+		equation = replaceInputPlacehodlers(equation);
+
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
 			katex.render( equation, el, {
 				throwOnError: false,
@@ -339,4 +342,8 @@ function moveElement( parent, child ) {
 	child.style.top = top + 'px';
 	child.style.zIndex = 'var(--ck-z-modal)';
 	child.style.pointerEvents = 'none';
+}
+
+function replaceInputPlacehodlers(equation) {
+	return equation.replace(/{{input-(\d+)}}/g, '\\htmlClass{input-placeholder input-$1}{\\text{input-$1}}');
 }
