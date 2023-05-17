@@ -345,5 +345,5 @@ function moveElement( parent, child ) {
 }
 
 function replaceInputPlacehodlers(equation) {
-	return equation.replace(/{{input-(\d+)}}/g, '\\htmlClass{input-placeholder input-$1}{\\text{input-$1}}');
+	return equation.replace(/{{input-(\d+)}}/g, '\\htmlClass{input-placeholder input-$1}{\\text{\\#$1}}');
 }
