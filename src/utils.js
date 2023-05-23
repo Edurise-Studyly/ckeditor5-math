@@ -345,5 +345,9 @@ function moveElement( parent, child ) {
 }
 
 function replaceInputPlacehodlers(equation) {
-	return equation.replace(/{{input-(\d+)}}/g, '\\htmlClass{input-placeholder input-$1}{\\text{\\#$1}}');
+	return equation.replace(/{{input(?:-(\d+))?}}/g, (_, id) => {
+		const className = `input-placeholder ${id !== undefined ? `input-${id}` : ''}`;
+		const text = `\\#${id ?? '?'}`;
+		return `\\htmlClass{${className}}{\\text{${text}}}`;
+	})
 }
