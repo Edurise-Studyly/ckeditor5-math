@@ -1,6 +1,12 @@
 const icons = [
 	// Allgemein
 	{
+		name: "input",
+		command: "{{input}}",
+		category: "Allgemein",
+		path: "/assets/math-shortcut-icons/allgemein/input.svg",
+	},
+	{
 		name: "^circ",
 		command: "^\\circ",
 		category: "Allgemein",
