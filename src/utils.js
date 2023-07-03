@@ -184,6 +184,9 @@ export async function renderEquation(
 			} );
 		}
 	} else if ( engine === 'katex' && typeof katex !== 'undefined' ) {
+
+		equation = replaceInputPlacehodlers(equation);
+
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
 			katex.render( equation, el, {
 				throwOnError: false,
@@ -339,4 +342,17 @@ function moveElement( parent, child ) {
 	child.style.top = top + 'px';
 	child.style.zIndex = 'var(--ck-z-modal)';
 	child.style.pointerEvents = 'none';
+}
+
+/**
+ * @description replace input placeholders in math with \htmlClass{input-placeholder}{<text>} latex command to render math with some parts wrapped in an HTML element with given class
+ * @param {string} equation math expression
+ * @returns math expression with replaced input placeholders
+ */
+function replaceInputPlacehodlers(equation) {
+	return equation.replace(/{{input(?:-(\d+))?}}/g, (_, id) => {
+		const className = `input-placeholder ${id !== undefined ? `input-${id}` : ''}`;
+		const text = `\\#${id ?? '?'}`;
+		return `\\htmlClass{${className}}{\\text{${text}}}`;
+	})
 }
