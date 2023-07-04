@@ -1,16 +1,16 @@
 export interface MathConfig {
 	engine?: string;
-	lazyLoad?: () => Promise<any>;
+	lazyLoad?: boolean | (() => Promise<any>);
 	outputType?: string;
 	forceOutputType?: boolean;
 	enablePreview?: boolean;
 	previewClassName?: string[];
 	popupClassName?: string[];
-	katexRenderOptions: { [key: string]: any };
+	katexRenderOptions?: { [key: string]: any };
 	keepOpen?: boolean;
 }
 
-declare module "@ckeditor/ckeditor5-core/src/editor/editorconfig" {
+declare module "@ckeditor/ckeditor5-core" {
 	interface EditorConfig {
 		math?: MathConfig;
 	}
