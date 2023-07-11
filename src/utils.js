@@ -350,9 +350,22 @@ function moveElement( parent, child ) {
  * @returns math expression with replaced input placeholders
  */
 function replaceInputPlacehodlers(equation) {
-	return equation.replace(/{{input(?:-(\d+))?}}/g, (_, id) => {
-		const className = `input-placeholder ${id !== undefined ? `input-${id}` : ''}`;
-		const text = `\\#${id ?? '?'}`;
-		return `\\htmlClass{${className}}{\\text{${text}}}`;
-	})
+	return equation.replace(
+		/{{(?<type>input|math|text|select)(?:-(?<size>sm|md|lg|xl))?(?:-(?<id>\d+))?}}/g,
+		(...args) => {
+			const groups = args.pop();
+			// remove default input type
+			if (groups["type"] === "input") {
+				delete groups["type"];
+			}
+			const classNames = [
+				"input-placeholder",
+				...Object.entries(groups)
+					.filter(([_key, value]) => value !== undefined)
+					.map(([key, value]) => `input-placeholder-${key}-${value}`),
+			];
+			const text = `\\#${groups["id"] ?? "?"}`;
+			return `\\htmlClass{${classNames.join(" ")}}{\\text{${text}}}`;
+		}
+	);
 }
