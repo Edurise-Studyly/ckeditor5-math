@@ -345,7 +345,7 @@ function moveElement( parent, child ) {
 }
 
 /**
- * @description replace input placeholders in math with \htmlClass{input-placeholder}{<text>} latex command to render math with some parts wrapped in an HTML element with given class
+ * @description replace input placeholders in math with \htmlClass{<classNames>}{<text>} latex command to render math with some parts wrapped in an HTML element with given classes
  * @param {string} equation math expression
  * @returns math expression with replaced input placeholders
  */
@@ -359,7 +359,7 @@ function replaceInputPlacehodlers(equation) {
 				delete groups["type"];
 			}
 			const classNames = [
-				"input-placeholder",
+				"input-placeholder-container",
 				...Object.entries(groups)
 					.filter(([_key, value]) => value !== undefined)
 					.map(([key, value]) => `input-placeholder-${key}-${value}`),
