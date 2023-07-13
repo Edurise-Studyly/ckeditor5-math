@@ -359,7 +359,7 @@ function replaceInputPlacehodlers(equation) {
 				delete groups["type"];
 			}
 			const classNames = [
-				"input-placeholder-container",
+				"input-placeholder",
 				...Object.entries(groups)
 					.filter(([_key, value]) => value !== undefined)
 					.map(([key, value]) => `input-placeholder-${key}-${value}`),
