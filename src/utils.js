@@ -345,14 +345,27 @@ function moveElement( parent, child ) {
 }
 
 /**
- * @description replace input placeholders in math with \htmlClass{input-placeholder}{<text>} latex command to render math with some parts wrapped in an HTML element with given class
+ * @description replace input placeholders in math with \htmlClass{<classNames>}{<text>} latex command to render math with some parts wrapped in an HTML element with given classes
  * @param {string} equation math expression
  * @returns math expression with replaced input placeholders
  */
 function replaceInputPlacehodlers(equation) {
-	return equation.replace(/{{input(?:-(\d+))?}}/g, (_, id) => {
-		const className = `input-placeholder ${id !== undefined ? `input-${id}` : ''}`;
-		const text = `\\#${id ?? '?'}`;
-		return `\\htmlClass{${className}}{\\text{${text}}}`;
-	})
+	return equation.replace(
+		/{{(?<type>input|math|text|select)(?:-(?<size>sm|md|lg|xl))?(?:-(?<id>\d+))?}}/g,
+		(...args) => {
+			const groups = args.pop();
+			// remove default input type
+			if (groups["type"] === "input") {
+				delete groups["type"];
+			}
+			const classNames = [
+				"input-placeholder-container",
+				...Object.entries(groups)
+					.filter(([_key, value]) => value !== undefined)
+					.map(([key, value]) => `input-placeholder-${key}-${value}`),
+			];
+			const text = `\\#${groups["id"] ?? "?"}`;
+			return `\\htmlClass{${classNames.join(" ")}}{\\text{${text}}}`;
+		}
+	);
 }
