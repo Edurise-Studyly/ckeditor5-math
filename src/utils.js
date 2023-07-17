@@ -351,7 +351,7 @@ function moveElement( parent, child ) {
  */
 function replaceInputPlacehodlers(equation) {
 	return equation.replace(
-		/{{(?<type>input|math|text|select)(?:-(?<size>sm|md|lg|xl))?(?:-(?<id>\d+))?}}/g,
+		/{{(?<type>input|math|text|select)(?:-(?<size>xs|sm|md|lg|xl))?(?:-(?<id>\d+))?}}/g,
 		(...args) => {
 			const groups = args.pop();
 			// remove default input type
