@@ -347,11 +347,11 @@ function moveElement( parent, child ) {
 /**
  * @description replace input placeholders in math with \htmlClass{<classNames>}{<text>} latex command to render math with some parts wrapped in an HTML element with given classes
  * @param {string} equation math expression
- * @param {Locale} locale editor locale to localize the input placeholder label
+ * @param {Locale} [locale] editor locale to localize the input placeholder label
  * @returns math expression with replaced input placeholders
  */
 function replaceInputPlacehodlers(equation, locale) {
-	const t = locale.t
+	const t = locale?.t;
 	return equation.replace(
 		/{{(?<type>input|math|text|select)(?:-(?<size>xs|sm|md|lg|xl))?(?:-(?<id>\d+))?}}/g,
 		(...args) => {
@@ -366,7 +366,7 @@ function replaceInputPlacehodlers(equation, locale) {
 					.filter(([_key, value]) => value !== undefined)
 					.map(([key, value]) => `input-placeholder-${key}-${value}`),
 			];
-			const text = t('Solution');
+			const text = t ? t('Solution') : `\\#${groups["id"] ?? "?"}`;
 			return `\\htmlClass{${classNames.join(" ")}}{\\text{${text}}}`;
 		}
 	);

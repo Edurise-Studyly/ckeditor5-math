@@ -8,7 +8,6 @@ export default class MathView extends View {
 
 		this.engine = engine;
 		this.lazyLoad = lazyLoad;
-		this.locale = locale
 		this.previewUid = previewUid;
 		this.previewClassName = previewClassName;
 	  	this.katexRenderOptions = katexRenderOptions;
@@ -35,7 +34,7 @@ export default class MathView extends View {
 
 	updateMath() {
 		renderEquation( this.value, this.element, this.engine, this.lazyLoad, this.display, true, this.previewUid, this.previewClassName,
-		  this.katexRenderOptions, this.locale );
+		  this.katexRenderOptions );
 	}
 
 	render() {
