@@ -1,7 +1,7 @@
 import global from '@ckeditor/ckeditor5-utils/src/dom/global';
 import BalloonPanelView from '@ckeditor/ckeditor5-ui/src/panel/balloon/balloonpanelview';
 import katex from "katex/dist/katex.mjs";
-import { Locale } from '@ckeditor/ckeditor5-utils';
+import {indexOf} from "lodash";
 
 export function getSelectedMathModelWidget( selection ) {
 	if (selection == null) {
@@ -154,7 +154,7 @@ export function delimitersAreAtBeginningAndEnd( mathFormulas ) {
 
 export async function renderEquation(
 	equation, element, engine = 'katex', lazyLoad, display = false, preview = false, previewUid, previewClassName = [],
-	katexRenderOptions = {}, locale
+	katexRenderOptions = {}
 ) {
 	if ( engine === 'mathjax' && typeof MathJax !== 'undefined' ) {
 		if ( isMathJaxVersion3( MathJax.version ) ) {
@@ -185,7 +185,7 @@ export async function renderEquation(
 		}
 	} else if ( engine === 'katex' && typeof katex !== 'undefined' ) {
 
-		equation = replaceInputPlacehodlers(equation, locale);
+		equation = replaceInputPlacehodlers(equation);
 
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
 			katex.render( equation, el, {
@@ -208,7 +208,7 @@ export async function renderEquation(
 				}
 				element.innerHTML = equation;
 				await global.window.CKEDITOR_MATH_LAZY_LOAD;
-				renderEquation( equation, element, engine, undefined, display, preview, previewUid, previewClassName, katexRenderOptions, locale );
+				renderEquation( equation, element, engine, undefined, display, preview, previewUid, previewClassName, katexRenderOptions );
 			}
 			catch ( err ) {
 				element.innerHTML = equation;
@@ -347,11 +347,9 @@ function moveElement( parent, child ) {
 /**
  * @description replace input placeholders in math with \htmlClass{<classNames>}{<text>} latex command to render math with some parts wrapped in an HTML element with given classes
  * @param {string} equation math expression
- * @param {Locale} locale editor locale to localize the input placeholder label
  * @returns math expression with replaced input placeholders
  */
-function replaceInputPlacehodlers(equation, locale) {
-	const t = locale.t
+function replaceInputPlacehodlers(equation) {
 	return equation.replace(
 		/{{(?<type>input|math|text|select)(?:-(?<size>xs|sm|md|lg|xl))?(?:-(?<id>\d+))?}}/g,
 		(...args) => {
@@ -366,7 +364,7 @@ function replaceInputPlacehodlers(equation, locale) {
 					.filter(([_key, value]) => value !== undefined)
 					.map(([key, value]) => `input-placeholder-${key}-${value}`),
 			];
-			const text = t('Solution');
+			const text = `\\#${groups["id"] ?? "?"}`;
 			return `\\htmlClass{${classNames.join(" ")}}{\\text{${text}}}`;
 		}
 	);

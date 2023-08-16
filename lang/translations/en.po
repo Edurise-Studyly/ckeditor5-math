@@ -31,6 +31,3 @@ msgstr "Insert math"
 msgctxt "Keep window open"
 msgid "Keep window open"
 msgstr "Keep window open"
-
-msgid "Solution"
-msgstr "Solution"
