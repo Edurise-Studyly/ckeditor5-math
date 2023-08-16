@@ -64,7 +64,6 @@ export default class MathEditing extends Plugin {
 	_defineConverters() {
 		const conversion = this.editor.conversion;
 		const mathConfig = this.editor.config.get( 'math' );
-		const locale = this.editor.locale;
 
 		// View -> Model
 		conversion.for( 'upcast' )
@@ -181,13 +180,13 @@ export default class MathEditing extends Plugin {
 			.elementToElement( {
 				model: 'mathtex-inline',
 				view: ( modelItem, { writer } ) => {
-					const widgetElement = createMathtexEditingView( modelItem, writer, locale );
+					const widgetElement = createMathtexEditingView( modelItem, writer );
 					return toWidget( widgetElement, writer, 'span' );
 				}
 			} ).elementToElement( {
 				model: 'mathtex-display',
 				view: ( modelItem, { writer } ) => {
-					const widgetElement = createMathtexEditingView( modelItem, writer, locale );
+					const widgetElement = createMathtexEditingView( modelItem, writer );
 					return toWidget( widgetElement, writer, 'div' );
 				}
 			} );
@@ -204,7 +203,7 @@ export default class MathEditing extends Plugin {
 			} );
 
 		// Create view for editor
-		function createMathtexEditingView( modelItem, writer, locale ) {
+		function createMathtexEditingView( modelItem, writer ) {
 			const equation = modelItem.getAttribute( 'equation' );
 			const display = modelItem.getAttribute( 'display' );
 
@@ -221,7 +220,7 @@ export default class MathEditing extends Plugin {
 				const domElement = this.toDomElement( domDocument );
 
 				renderEquation( equation, domElement, mathConfig.engine, mathConfig.lazyLoad, display, false, mathConfig.previewClassName,
-					null, mathConfig.katexRenderOptions, locale );
+					null, mathConfig.katexRenderOptions );
 
 				return domElement;
 			} );

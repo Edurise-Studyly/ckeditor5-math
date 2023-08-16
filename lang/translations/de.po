@@ -31,6 +31,3 @@ msgstr "Formel einsetzen"
 msgctxt "Keep window open"
 msgid "Keep window open"
 msgstr "Fenster offen lassen"
-
-msgid "Solution"
-msgstr "Lösung"
