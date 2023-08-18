@@ -220,6 +220,13 @@ const icons = [
 		path: "/assets/math-shortcut-icons/speziell/textcolor_red_ro.svg",
 	},
 	{
+		// REF: CKEDITOR-COLOR-YELLOW (can be used to search for other places where yellow is defined)
+		name: "colorbox_yellow",
+		command: "\\colorbox{#ffff00}{}",
+		category: "Speziell",
+		path: "/assets/math-shortcut-icons/speziell/colorbox_yellow.svg",
+	},
+	{
 		name: "underbrace_Klamm",
 		command: "\\underbrace{}",
 		category: "Speziell",
