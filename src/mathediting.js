@@ -109,7 +109,13 @@ export default class MathEditing extends Plugin {
 					classes: [ 'math-tex' ]
 				},
 				model: ( viewElement, { writer } ) => {
-					const equation = viewElement.getChild( 0 ).data.trim();
+					const equation = viewElement.getChild( 0 ).data?.trim();
+
+                    // @filip-povolny-studyly: equation can be null in case of nested math-tex element with already rendered equation => do not upcast
+                    // example: <span class="math-tex"><span class="katex">...</span></span>
+                    if (!equation) {
+                        return null
+                    }
 
 					const params = Object.assign( extractDelimiters( equation ), {
 						type: mathConfig.forceOutputType ? mathConfig.outputType : 'span'
