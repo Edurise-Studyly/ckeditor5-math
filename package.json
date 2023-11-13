@@ -2,6 +2,7 @@
   "name": "ckeditor5-math",
   "version": "35.0.1",
   "description": "Math feature for CKEditor 5.",
+  "main": "src/math.js",
   "keywords": [
     "ckeditor",
     "ckeditor5",
