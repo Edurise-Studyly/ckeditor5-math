@@ -16,7 +16,7 @@ export interface MathConfig {
 	keepOpen?: boolean;
 }
 
-declare module "@ckeditor/ckeditor5-core/src/editor/editorconfig" {
+declare module "@ckeditor/ckeditor5-core" {
 	interface EditorConfig {
 		math?: MathConfig;
 	}
