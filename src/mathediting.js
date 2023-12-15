@@ -43,9 +43,8 @@ export default class MathEditing extends Plugin {
 	_defineSchema() {
 		const schema = this.editor.model.schema;
 		schema.register( 'mathtex-inline', {
-			allowWhere: '$text',
-			isInline: true,
-			isObject: true,
+			// shorthand for isObject & isInline
+            inheritAllFrom: '$inlineObject',
 			allowAttributes: [
 				'equation', 'type', 'display', 'fontBackgroundColor', 'fontColor' //allow fontBackgroundColor and fontcolor
 			]
@@ -55,6 +54,8 @@ export default class MathEditing extends Plugin {
 			allowWhere: '$text',
 			isInline: false,
 			isObject: true,
+			// TBD @filip-povolny-studyly: allow display mathtex only in root for proper navigation with arrow keys
+            // inheritAllFrom: '$blockObject',
 			allowAttributes: [
 				'equation', 'type', 'display', 'fontBackgroundColor', 'fontColor' //allow fontBackgroundColor and fontcolor
 			]
